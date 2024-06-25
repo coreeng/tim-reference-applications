@@ -1,0 +1,71 @@
+name: Render Templates
+on:
+  workflow_call:
+    inputs: {}
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  update-templates:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_ref: ${{ steps.push.outputs.commit_hash }}
+      changed_templates: ${{ steps.render.outputs.changed_templates }}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ./reference-apps
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: coreeng/software-templates
+          path: ./software-templates
+      - uses: robinraju/release-downloader@v1.10
+        with:
+          repository: coreeng/corectl
+          latest: true
+          fileName: corectl_Linux_x86_64.tar.gz
+          extract: true
+          out-file-path: corectl
+      - id: render
+        run: |
+          export PATH="${PATH}:$(realpath ./corectl)"
+          ./reference-apps/.github/scripts/collect_changed_templates.sh \
+            -t ./software-templates \
+            -r ./reference-apps \
+            -o ./changed_templates.json
+          ct_json="$(cat ./changed_templates.json)"
+          echo "Changed templates: $ct_json"
+          echo "changed_templates=$ct_json" >> $GITHUB_OUTPUT
+          git -C "./reference-apps" status --porcelain
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        id: push
+        with:
+          repository: ./reference-apps
+          commit_message: "chore: update templates"
+      - name: Failure Alert
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_ALERT_URL }}
+        with:
+          payload: |
+            {
+              "notification": "❌ Failed rendering software templates!",
+              "workflow_link": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            }
+  p2p:
+    needs: [update-templates]
+    if: needs.update-templates.outputs.changed_templates != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        changed_template: ${{ fromJson(needs.update-templates.outputs.changed_templates) }}
+    uses: ./.github/workflows/p2p.yaml
+    with:
+      lifecycle: ${{ matrix.changed_template }}
+      ref: ${{ needs.update-templates.outputs.latest_ref }}
+    secrets:
+      SLACK_WEBHOOK_ALERT_URL: ${{ secrets.SLACK_WEBHOOK_ALERT_URL }}
