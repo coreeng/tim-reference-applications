@@ -1,4 +1,4 @@
-name: Fast Feedback
+name:  Fast Feedback
 
 on:
   workflow_dispatch:

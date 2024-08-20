@@ -1,4 +1,4 @@
-name: Extended Test
+name:  Extended Test
 
 on:
   workflow_dispatch:
