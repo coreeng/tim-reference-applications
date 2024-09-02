@@ -1,0 +1,40 @@
+appName: rendered-template
+registry:
+domain:
+appUrlSuffix:
+tenantName:
+tag: latest
+monitoring: false
+dashboarding: false
+prometheusEndpoint:
+
+functional:
+  image:
+nft:
+  image:
+  endpoint: ingress
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+extended:
+  image:
+  endpoint: service
+  parallelism: 10
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 256Mi
+    limits:
+      cpu: 1000m
+      memory: 512Mi
+service:
+  image:
+  replicas: 2
+  resources:
+    requests:
+      cpu: 700m
+      memory: 300Mi

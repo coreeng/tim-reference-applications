@@ -1,0 +1,4 @@
+rootProject.name = 'rendered-template'
+
+include 'functional'
+include 'service'
