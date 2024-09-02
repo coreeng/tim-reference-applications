@@ -1,4 +1,4 @@
 name: rendered-template
-tenant: test-tenant
+tenant: $(TENANT_NAME)
 working_directory: ./
 version_prefix: v
