@@ -1,7 +1,7 @@
 projectDir := $(realpath $(dir $(firstword $(MAKEFILE_LIST))))
 os := $(shell uname)
 image_tag = $(VERSION)
-image_name = rendered-template
+image_name = blank
 tenant_name = $(TENANT_NAME)
 
 FAST_FEEDBACK_PATH = fast-feedback

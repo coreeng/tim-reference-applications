@@ -1,4 +1,4 @@
-name: rendered-template Extended Test
+name: blank Extended Test
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ jobs:
   get-latest-version:
     uses: coreeng/p2p/.github/workflows/p2p-get-latest-image-extended-test.yaml@v1
     with:
-      image-name: rendered-template
+      image-name: blank
 
   extendedtests:
     needs: [get-latest-version]

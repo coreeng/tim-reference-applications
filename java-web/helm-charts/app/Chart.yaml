@@ -1,6 +1,6 @@
 apiVersion: v2
-name: rendered-template
-description: Chart of the rendered-template
+name: java-web
+description: Chart of the java-web
 type: application
 version: 0.1.0
 appVersion: "1.16.0"

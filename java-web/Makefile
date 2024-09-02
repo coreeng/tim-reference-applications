@@ -1,6 +1,6 @@
 projectDir := $(realpath $(dir $(firstword $(MAKEFILE_LIST))))
 os := $(shell uname)
-app_name = rendered-template
+app_name = java-web
 tenant_name = $(TENANT_NAME)
 image_name = $(app_name)
 image_tag = $(VERSION)

@@ -1,4 +1,4 @@
-name: rendered-template Fast Feedback
+name: java-web Fast Feedback
 
 on:
   workflow_dispatch:

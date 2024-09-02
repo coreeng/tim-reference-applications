@@ -1,4 +1,4 @@
-rootProject.name = 'rendered-template'
+rootProject.name = 'java-web'
 
 include 'functional'
 include 'service'
