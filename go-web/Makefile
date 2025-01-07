@@ -1,7 +1,7 @@
 projectDir := $(realpath $(dir $(firstword $(MAKEFILE_LIST))))
 os := $(shell uname)
 app_name = go-web
-tenant_name = $(TENANT_NAME)
+tenant_name = tim
 image_name = $(app_name)
 image_tag = $(VERSION)
 helm_test_timeout_duration = 2m
